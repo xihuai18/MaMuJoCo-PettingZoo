@@ -18,5 +18,6 @@ setup(
         "gymnasium-robotics",
         "mujoco",
         "pre-commit",
+        "co-mas @ git+https://github.com/xihuai18/Common-Multi-agent-Environments.git",
     ],
 )
