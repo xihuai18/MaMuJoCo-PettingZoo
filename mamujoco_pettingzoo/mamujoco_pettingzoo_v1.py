@@ -1,7 +1,7 @@
 import gymnasium as gym
 from gymnasium_robotics import mamujoco_v1
 from gymnasium_robotics.envs.multiagent_mujoco.obsk import get_parts_and_edges
-
+import pettingzoo
 
 def parallel_env(
     scenario: str,
