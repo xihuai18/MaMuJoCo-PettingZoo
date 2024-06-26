@@ -1,3 +1,5 @@
+from typing import List
+
 import gymnasium as gym
 import pettingzoo
 from gymnasium_robotics import mamujoco_v1
@@ -13,6 +15,7 @@ def parallel_env(
     global_categories: tuple[str, ...] | None = None,
     render_mode: str | None = None,
     gym_env: gym.envs.mujoco.mujoco_env.MujocoEnv | None = None,
+    additional_wrappers: List[pettingzoo.utils.BaseParallelWrapper] = [],
     **kwargs,
 ):
     env = mamujoco_v1.parallel_env(
@@ -26,14 +29,24 @@ def parallel_env(
         gym_env=gym_env,
         **kwargs,
     )
-    if hasattr(env, "state_space"):
+    env.state_space = env.unwrapped.single_agent_env.observation_space
+    if hasattr(env, "state_space") and hasattr(env, "state"):
         from co_mas.wrappers import AgentStateParallelEnvWrapper
 
         env = AgentStateParallelEnvWrapper(env)
 
-    aec_env = pettingzoo.utils.parallel_to_aec(env)
-    aec_env = pettingzoo.utils.OrderEnforcingWrapper(aec_env)
-    env = pettingzoo.utils.aec_to_parallel(aec_env)
+    for wrapper in additional_wrappers:
+        if issubclass(wrapper, pettingzoo.utils.BaseParallelWrapper):
+            env = wrapper(env)
+        elif issubclass(wrapper, pettingzoo.utils.BaseWrapper):
+            from co_mas.wrappers import AECToParallelWrapper, ParallelToAECWrapper
+
+            aec_env = ParallelToAECWrapper(env)
+            aec_env = wrapper(aec_env)
+            env = AECToParallelWrapper(aec_env)
+        else:
+            raise ValueError(f"Unknown wrapper type: {wrapper}")
+
     return env
 
 
