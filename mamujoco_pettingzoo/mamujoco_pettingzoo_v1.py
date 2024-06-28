@@ -3,6 +3,7 @@ from typing import List
 import gymnasium as gym
 import pettingzoo
 from gymnasium_robotics import mamujoco_v1
+from gymnasium_robotics.envs.multiagent_mujoco import MultiAgentMujocoEnv
 from gymnasium_robotics.envs.multiagent_mujoco.obsk import get_parts_and_edges
 
 
@@ -17,7 +18,7 @@ def parallel_env(
     gym_env: gym.envs.mujoco.mujoco_env.MujocoEnv | None = None,
     additional_wrappers: List[pettingzoo.utils.BaseParallelWrapper] = [],
     **kwargs,
-):
+) -> MultiAgentMujocoEnv:
     env = mamujoco_v1.parallel_env(
         scenario=scenario,
         agent_conf=agent_conf,
