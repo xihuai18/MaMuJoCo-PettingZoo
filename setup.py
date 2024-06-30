@@ -15,9 +15,8 @@ setup(
     install_requires=[
         "gymnasium",
         "pettingzoo>=1.24.3",
-        "gymnasium-robotics",
+        "gymnasium-robotics @ git+https://github.com/Farama-Foundation/Gymnasium-Robotics.git",
         "mujoco",
         "pre-commit",
-        # "co-mas @ git+https://github.com/xihuai18/Common-Multi-agent-Environments.git",
     ],
 )
