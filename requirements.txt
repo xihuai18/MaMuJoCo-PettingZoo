@@ -1,1 +1,7 @@
+gymnasium
+pettingzoo>=1.24.3
+mujoco
+gymnasium-robotics @ git+https://github.com/Farama-Foundation/Gymnasium-Robotics.git
 git+https://github.com/xihuai18/Common-Multi-agent-Environments.git
+loguru
+pre-commit

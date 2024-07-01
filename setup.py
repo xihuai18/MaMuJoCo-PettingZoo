@@ -17,6 +17,7 @@ setup(
         "pettingzoo>=1.24.3",
         "gymnasium-robotics @ git+https://github.com/Farama-Foundation/Gymnasium-Robotics.git",
         "mujoco",
+        "co_mas @ git+https://github.com/xihuai18/Common-Multi-agent-Environments.git",
         "pre-commit",
     ],
 )
