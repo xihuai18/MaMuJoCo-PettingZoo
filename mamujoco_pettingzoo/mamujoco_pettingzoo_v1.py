@@ -41,6 +41,8 @@ def parallel_env(
         **kwargs,
     )
     env.state_space = env.unwrapped.single_agent_env.observation_space
+    env.observation_spaces = gym.spaces.Dict(env.observation_spaces)
+    env.action_spaces = gym.spaces.Dict(env.action_spaces)
     if agent_state and hasattr(env, "state_space") and hasattr(env, "state"):
         from co_mas.wrappers import AgentStateParallelEnvWrapper
 
