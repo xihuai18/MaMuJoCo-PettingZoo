@@ -17,9 +17,18 @@ def parallel_env(
     render_mode: str | None = None,
     gym_env: gym.envs.mujoco.mujoco_env.MujocoEnv | None = None,
     order_forcing: bool = True,
+    agent_state: bool = True,
     additional_wrappers: List[pettingzoo.utils.BaseParallelWrapper] = [],
     **kwargs,
 ) -> MultiAgentMujocoEnv:
+    """
+    Parameters
+    ----------
+    order_forcing : bool
+        Whether to use the OrderForcingParallelEnvWrapper.
+    agent_state : bool
+        Whether to use the AgentStateParallelEnvWrapper, if possible.
+    """
     env = mamujoco_v1.parallel_env(
         scenario=scenario,
         agent_conf=agent_conf,
@@ -32,10 +41,12 @@ def parallel_env(
         **kwargs,
     )
     env.state_space = env.unwrapped.single_agent_env.observation_space
-    if hasattr(env, "state_space") and hasattr(env, "state"):
+    if agent_state and hasattr(env, "state_space") and hasattr(env, "state"):
         from co_mas.wrappers import AgentStateParallelEnvWrapper
 
-        env = AgentStateParallelEnvWrapper(env)
+        if not any(issubclass(wrapper, AgentStateParallelEnvWrapper) for wrapper in additional_wrappers):
+
+            env = AgentStateParallelEnvWrapper(env)
 
     from co_mas.wrappers import OrderForcingParallelEnvWrapper
 
