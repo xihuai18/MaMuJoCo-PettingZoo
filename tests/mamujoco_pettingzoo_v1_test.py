@@ -4,11 +4,9 @@ from loguru import logger
 from mamujoco_pettingzoo import mamujoco_pettingzoo_v1
 
 # API Tests
-env = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2")
-parallel_api_test(env, 400)
 
 env = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2")
-parallel_api_test(env, 400)
+parallel_api_test(env, 400, True)
 
 env1 = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2")
 
