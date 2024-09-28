@@ -5,10 +5,12 @@ from mamujoco_pettingzoo import mamujoco_pettingzoo_v1
 
 # API Tests
 
-env = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2")
+env = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2", None)
 parallel_api_test(env, 400, True)
 
-env1 = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2")
+env1 = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2", None)
+logger.info(f"agents:\n{env1.agents}")
+logger.info(f"action_partitions:\n{env1.agent_action_partitions}")
 
 # Seed Tests
 obs1_list = []
@@ -26,7 +28,7 @@ while True:
 
 env1.close()
 
-env2 = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2")
+env2 = mamujoco_pettingzoo_v1.parallel_env("Ant", "4x2", None)
 
 obs2_list = []
 obs2, info2 = env2.reset(seed=42)
